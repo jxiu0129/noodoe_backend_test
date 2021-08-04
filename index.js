@@ -6,7 +6,7 @@ import bodyparser from "body-parser";
 
 import dotenv from "dotenv";
 import { connectDB, start } from "./app/config";
-// import routes from "./app/routes";
+import routes from "./app/routes";
 
 dotenv.config();
 const app = express();
@@ -18,15 +18,15 @@ app.get("/", (req, res) => {
     res.send("hello world");
 });
 
-// app.use(
-//     "/api",
-//     (req, res, next) => {
-//         // api log can be here
-//         // validation
-//         next();
-//     },
-//     routes
-// );
+app.use(
+    "/api",
+    (req, res, next) => {
+        // api log can be here
+        // validation
+        next();
+    },
+    routes
+);
 app.get("*", (_, res) => res.status(404).send("Not Found"));
 
 // connnect to mongodb
