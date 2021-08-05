@@ -35,8 +35,8 @@ export const responseErr = (res, statusCode = 400, user = 'system', errObj, func
         //// var message = errObj.message ? errObj.message : errObj;
         //// LogService.createErrLog(res.req, errObj);
         const obj = {
-            type: 'fail',
-            values: errObj,
+            type: 'error',
+            message: errObj,
             time_tw: Date.now()
         };
         res.status(statusCode).json(obj);
