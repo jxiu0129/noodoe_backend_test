@@ -1,5 +1,6 @@
 import argon2 from "argon2";
 import { insert, search_all, search_by_email } from "../dao/user.dao";
+import { generateJwtToken } from "../utils";
 
 const register = (body) => {
     const { email, password } = body;
@@ -30,9 +31,14 @@ const login = (body) => {
             if (!isVerified) {
                 reject("密碼錯誤");
             } else {
-                resolve(`${email}登入成功`);
+                const token = await generateJwtToken({ email, id: user._id });
+                resolve({
+                    message: `${email} 登入成功`,
+                    jwt_token: token,
+                });
             }
         } catch (error) {
+            console.error("login logic", error);
             reject(error);
         }
         // if (password !== )

@@ -1,5 +1,6 @@
 import express from "express";
 import bodyparser from "body-parser";
+import url from "url";
 // import createError from "http-errors";
 // import path from "path";
 // import cookieParser from "cookie-parser";
@@ -7,6 +8,7 @@ import bodyparser from "body-parser";
 import dotenv from "dotenv";
 import { connectDB, start } from "./app/config";
 import routes from "./app/routes";
+import { verifyJwtToken } from "./app/utils";
 
 dotenv.config();
 const app = express();
@@ -23,7 +25,18 @@ app.use(
     (req, res, next) => {
         // api log can be here
         // validation
-        next();
+        const urlObj = url.parse(req.url, true);
+        if (urlObj.pathname.indexOf("/User") !== -1) {
+            next();
+        } else {
+            verifyJwtToken(req)
+                .then(() => {
+                    next();
+                })
+                .catch((err) => {
+                    res.status(err.status || 403).json(err);
+                });
+        }
     },
     routes
 );
