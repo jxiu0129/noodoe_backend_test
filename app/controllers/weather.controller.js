@@ -7,7 +7,6 @@ const getTaipeiNewtaipeiTaoyuanWeatherList = (req, res, next) => {
         .then((result) => {
             responseSuccess(
                 res,
-                "success",
                 200,
                 "jxiu",
                 result,

@@ -7,10 +7,18 @@
  * @param {*} objMsg
  * @param {*} functionName
  */
-export const responseSuccess = (res, message , statusCode = 200, user = 'system', objMsg, functionName = 'system') => {
+export const responseSuccess = (res, statusCode = 200, user = 'system', objMsg, functionName = 'system') => {
     try {
-        res.status(statusCode).json(new SuccessResponseModel(message, !objMsg || (isCamel ? camelcaseKeys(objMsg) : objMsg)));
+        //// res.status(statusCode).json(new SuccessResponseModel(message, !objMsg || (isCamel ? camelcaseKeys(objMsg) : objMsg)));
+        // let reMsg = `response_success: ${JSON.stringify({ statusCode, user, objMsg, functionName })}`;
+        const obj = {
+            type: 'success',
+            values: objMsg,
+            time_tw: Date.now()
+        };
+        res.status(statusCode).json(obj);
     } catch (error) {
+        console.error(error)
     }
 };
 
@@ -24,10 +32,31 @@ export const responseSuccess = (res, message , statusCode = 200, user = 'system'
 export const responseErr = (res, statusCode = 400, user = 'system', errObj, functionName = 'system') => {
     try {
         statusCode = errObj.status ? errObj.status : statusCode;
-        var message = errObj.message ? errObj.message : errObj;
+        //// var message = errObj.message ? errObj.message : errObj;
         //// LogService.createErrLog(res.req, errObj);
-        res.status(statusCode).json(new ErrorModel(message, statusCode));
+        const obj = {
+            type: 'fail',
+            values: errObj,
+            time_tw: Date.now()
+        };
+        res.status(statusCode).json(obj);
     } catch (error) {
+        console.error(error);
+    }
+};
 
+/**
+ * 統一錯誤物件組成, msg: 純文字, 有任何物件放到 obj
+ * @param {*} msg
+ * @param {*} code
+ * @param {*} fName
+ * @param {*} obj
+ */
+export const errObj = (msg, code = 400, fName = "unknow", obj) => {
+    try {
+        msg = typeof msg === "string" ? msg : JSON.stringify(msg);
+        return Object.assign({}, { fName, code, msg, obj });
+    } catch (error) {
+        console.log(error);
     }
 };

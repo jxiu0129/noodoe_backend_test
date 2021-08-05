@@ -19,16 +19,14 @@ export const insert = (data) => {
     });
 };
 
-// export const search_all = () => {
-//     return new Promise((resolve, reject) => {
-//         con_backend
-//             .find({})
-//             .exec((err, docs) => {
-//                 if (err) reject(errObj(err, 400, 'search_business'));
-//                 resolve(docs);
-//             });
-//     });
-// };
+export const search_all = () => {
+    return new Promise((resolve, reject) => {
+        Weather.find({}).exec((err, docs) => {
+            if (err) reject(err);
+            resolve(docs);
+        });
+    });
+};
 
 // export const search_by_key = (key) => {
 //     return new Promise((resolve, reject) => {
