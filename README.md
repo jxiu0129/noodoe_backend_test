@@ -7,9 +7,9 @@
 ## Installation
 
 ```shell
-$ git clone https://github.com/jxiu0129/noodoe_backend_test.git
-$ cd noodoe_backend_test
-$ yarn install && yarn start
+git clone https://github.com/jxiu0129/noodoe_backend_test.git
+cd noodoe_backend_test
+yarn install && yarn start
 ```
 
 ## Request
