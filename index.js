@@ -1,9 +1,9 @@
 import express from "express";
 import bodyparser from "body-parser";
 import url from "url";
-// import createError from "http-errors";
-// import path from "path";
-// import cookieParser from "cookie-parser";
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+import cors from "cors";
 
 import dotenv from "dotenv";
 import { connectDB, start } from "./app/config";
@@ -12,6 +12,11 @@ import { verifyJwtToken } from "./app/utils";
 
 dotenv.config();
 const app = express();
+app.use(cors());
+
+// swagger
+const swaggerDocument = YAML.load("./swagger.yaml");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(bodyparser.json({ limit: "50mb" }));
 app.use(bodyparser.urlencoded({ limit: "50mb", extended: false }));

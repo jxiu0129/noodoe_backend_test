@@ -14,7 +14,7 @@ const register = (body) => {
 
             const hashedPwd = await argon2.hash(password);
             const data = await insert({ email, password: hashedPwd });
-            resolve(data);
+            resolve(`${email}成功註冊`);
         } catch (error) {
             reject(error);
         }

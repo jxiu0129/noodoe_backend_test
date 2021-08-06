@@ -11,6 +11,7 @@ const getWeatherInfo = (district) => {
             const filteredWeather = weatherData.filter(
                 (w) => w.obsLocation.city === district
             );
+            //因為沒要求所以就沒再整理資料格式
             resolve(filteredWeather);
         }
     });

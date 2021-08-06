@@ -1,0 +1,225 @@
+swagger: "2.0"
+info:
+    description: "先註冊，再登入取得jwt後，帶入weather API"
+    version: "1.0.0"
+    title: "noodoe backend test"
+    contact:
+        email: "h.s.i.e.h.tw.29@gmail.com"
+host: "localhost:3000"
+basePath: "/api"
+tags:
+    - name: "User"
+      description: "註冊以取得 `api-key`"
+    - name: "Weather"
+      description: "Access to weather Info"
+schemes:
+    # - "https"
+    - "http"
+paths:
+    /User/Register:
+        post:
+            tags:
+                - "User"
+            summary: "註冊"
+            description: ""
+            operationId: "updatePetWithForm"
+            consumes:
+                - "application/x-www-form-urlencoded"
+            produces:
+                # - "application/xml"
+                - "application/json"
+            parameters:
+                - name: "email"
+                  in: "formData"
+                  description: "輸入信箱"
+                  required: true
+                  type: "string"
+                - name: "password"
+                  in: "formData"
+                  description: "輸入密碼"
+                  required: true
+                  type: "string"
+            responses:
+                "200":
+                    description: "successful operation"
+                    schema:
+                        $ref: "#/definitions/ApiResponse"
+    /User/Login:
+        post:
+            tags:
+                - "User"
+            summary: "登入"
+            description: "輸入帳號密碼以登入取得jwt"
+            consumes:
+                - "application/x-www-form-urlencoded"
+            produces:
+                # - "application/xml"
+                - "application/json"
+            parameters:
+                - name: "email"
+                  in: "formData"
+                  description: "輸入信箱"
+                  required: true
+                  type: "string"
+                - name: "password"
+                  in: "formData"
+                  description: "輸入密碼"
+                  required: true
+                  type: "string"
+            responses:
+                "200":
+                    description: "登入成功會回傳jwt token"
+                    schema:
+                        type: "object"
+                        properties:
+                            status:
+                                type: "integer"
+                            message:
+                                type: "string"
+                            data:
+                                type: "object"
+                                properties:
+                                    message:
+                                        type: "string"
+                                    jwt_token:
+                                        type: "string"
+                            time_tw:
+                                type: "string"
+
+    /Weather/TaiNewTaiTao/List:
+        get:
+            tags:
+                - "Weather"
+            summary: "搜尋氣象資訊"
+            description: ""
+            # operationId: "updatePetWithForm"
+            consumes:
+                - "application/x-www-form-urlencoded"
+            produces:
+                # - "application/xml"
+                - "application/json"
+            # security:
+            #   - APIKeyHeader: []
+            parameters:
+                - name: "x-access-token"
+                  description: "登入後取得的`api-key`"
+                  in: "header"
+                  required: true
+                  type: "string"
+                - name: "district"
+                  in: "query"
+                  description: "想要搜尋的地區，若不帶此值(連?district都沒有)，回傳為全部北北桃資料"
+                  required: false
+                  type: "array"
+                  items:
+                      type: "string"
+                      enum: ["臺北市", "新北市", "桃園市", ""]
+                      default: ""
+                  # collectionFormat: "multi"
+            responses:
+                "200":
+                    description: "回傳城市天氣資訊"
+                    schema:
+                        type: "object"
+                        properties:
+                            status:
+                                type: "integer"
+                            message:
+                                type: "string"
+                            data:
+                                type: "array"
+                                items:
+                                    $ref: "#/definitions/Weather"
+                            time_tw:
+                                type: "string"
+# securityDefinitions:
+#   # X-API-Key: abcdef12345
+#   APIKeyHeader:
+#     type: apiKey
+#     in: header
+#     name: x-access-token
+definitions:
+    Weather:
+        type: "array"
+        items:
+            type: "object"
+            properties:
+                weatherElement:
+                    type: "object"
+                    properties:
+                        ELEV:
+                            type: "string"
+                        TWENTYFOUR_R:
+                            type: "string"
+                        WDIR:
+                            type: "string"
+                        WDSD:
+                            type: "string"
+                        TEMP:
+                            type: "string"
+                        HUMD:
+                            type: "string"
+                        PRES:
+                            type: "string"
+                        H_FX:
+                            type: "string"
+                        H_XD:
+                            type: "string"
+                        H_FXT:
+                            type: "string"
+                        H_F10:
+                            type: "string"
+                        H_10D:
+                            type: "string"
+                        H_F10T:
+                            type: "string"
+                        H_UVI:
+                            type: "string"
+                        D_TX:
+                            type: "string"
+                        D_TXT:
+                            type: "string"
+                        D_TN:
+                            type: "string"
+                        D_TNT:
+                            type: "string"
+                        D_TS:
+                            type: "string"
+                        VIS:
+                            type: "string"
+                        Weather:
+                            type: "string"
+                obsLocation:
+                    type: "object"
+                    properties:
+                        city:
+                            type: "string"
+                        city_id:
+                            type: "string"
+                        town:
+                            type: "string"
+                        town_id:
+                            type: "string"
+                _id:
+                    type: "string"
+                locationName:
+                    type: "string"
+                stationID:
+                    type: "string"
+                obsTime:
+                    type: "string"
+                createAt:
+                    type: "string"
+                __v:
+                    type: "integer"
+    ApiResponse:
+        type: "object"
+        properties:
+            status:
+                type: "integer"
+            message:
+                type: "string"
+            data:
+                type: "string"
+            time_tw:
+                type: "string"

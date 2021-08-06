@@ -3,7 +3,7 @@ import user from "../controllers/user.controller";
 
 const router = express.Router();
 
-router.route("/Register").get(user.register);
-router.route("/Login").get(user.login);
+router.route("/Register").post(user.register);
+router.route("/Login").post(user.login);
 
 export default router;

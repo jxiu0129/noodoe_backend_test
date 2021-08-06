@@ -12,9 +12,10 @@ export const responseSuccess = (res, statusCode = 200, user = 'system', objMsg, 
         //// res.status(statusCode).json(new SuccessResponseModel(message, !objMsg || (isCamel ? camelcaseKeys(objMsg) : objMsg)));
         // let reMsg = `response_success: ${JSON.stringify({ statusCode, user, objMsg, functionName })}`;
         const obj = {
-            type: 'success',
-            values: objMsg,
-            time_tw: Date.now()
+            status: statusCode,
+            message: `${functionName} success`,
+            data : objMsg,
+            time_tw: new Date()
         };
         res.status(statusCode).json(obj);
     } catch (error) {
@@ -35,9 +36,10 @@ export const responseErr = (res, statusCode = 400, user = 'system', errObj, func
         //// var message = errObj.message ? errObj.message : errObj;
         //// LogService.createErrLog(res.req, errObj);
         const obj = {
-            type: 'error',
-            message: errObj,
-            time_tw: Date.now()
+            status: statusCode,
+            message: `${functionName} fail`,
+            error : errObj.message,
+            time_tw: new Date()
         };
         res.status(statusCode).json(obj);
     } catch (error) {
