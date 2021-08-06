@@ -4,12 +4,10 @@
 
 <!-- [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) -->
 
-<!-- ![image](./assets/dcard-reader.gif) -->
-
 ## Installation
 
 ```shell
-$ git clone
+$ git clone https://github.com/jxiu0129/noodoe_backend_test.git
 $ cd noodoe_backend_test
 $ yarn install && yarn start
 ```
